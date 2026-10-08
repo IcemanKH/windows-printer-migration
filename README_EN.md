@@ -46,7 +46,8 @@ When the backup entry is launched, it first prints the banner, the program folde
 
 ![Backup entry screen](docs/images/backup-entry.png)
 
-> Every screenshot here uses **demo data** — sample printer names, a sample computer name and RFC5737 documentation IPs. None of it comes from a real environment.
+> **About the screenshots** — the six backup/restore flow images (`backup-entry`, `backup-select`, `backup-result`, `backup-folder`, `restore-entry`, `restore-result`) are **simulated interfaces drawn from the program's real output format**, using demo data (sample printer names, a sample computer name and RFC5737 documentation IPs). They are **not screenshots of a real run**.
+> `selftest.png` is a **redacted version of genuine self-test output**. No real printer migration has been validated in this repository: these images illustrate the UI and the workflow only, and do not mean that any real printer or driver was migrated successfully.
 
 ---
 
@@ -130,6 +131,8 @@ Afterwards you can optionally print a test page and review the summary: **Restor
 - Administrator rights — the script requests UAC elevation automatically
 - Everything it uses ships with Windows: `pnputil`, the `PrintManagement` module, `printui.dll` and so on
 
+> **Language note** — the tool itself still shows all of its interactive prompts and messages in **Chinese only**. This English README is documentation for English-speaking readers; it does **not** mean the program has been translated or internationalised. Running `01_备份打印机.bat` or `02_恢复打印机.bat` opens a Chinese console UI.
+
 ---
 
 ## 🔐 Permissions and execution policy
@@ -183,6 +186,8 @@ Afterwards you can optionally print a test page and review the summary: **Restor
 - Prints `[PASS]` / `[FAIL]` per case, and exits with code 1 if anything fails
 
 ![Self-test passing 31 cases](docs/images/selftest.png)
+
+> This image is a **redacted version of genuine self-test output** — only the line containing real printer names was replaced. It is not a simulated interface.
 
 ---
 
