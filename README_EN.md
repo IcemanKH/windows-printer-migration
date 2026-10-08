@@ -7,6 +7,10 @@
 
 `v1.0.0` ｜ Windows 10 / 11 ｜ PowerShell 5.1+
 
+### 📦 [Download latest release](https://github.com/IcemanKH/windows-printer-migration/releases/latest)
+
+> Grab **`Printer-Migration-v1.0.0.zip`** from the release page, unzip it, and **keep all three scripts in the same folder** — then double-click `01_备份打印机.bat` to start.
+
 ---
 
 ## ✨ Why use it
