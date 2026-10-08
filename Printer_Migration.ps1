@@ -2,7 +2,7 @@
 <#
     打印机驱动备份与恢复工具 (Printer Migration Tool)
     文件: Printer_Migration.ps1
-    入口: Printer_Migration.bat（双击运行）
+    入口: 01_备份打印机.bat（旧电脑备份） / 02_恢复打印机.bat（新电脑恢复）
 
     设计约束（与需求一致）:
       1. 只使用 Windows 自带组件: PowerShell / PnPUtil / PrintManagement 模块 / printui.dll。
@@ -265,7 +265,7 @@ function Start-ElevatedSession {
         return $true
     } catch {
         Write-Log "管理员权限请求被取消或失败: $($_.Exception.Message)" 'WARN'
-        Write-Host '提示: 请在弹出的 UAC 窗口中选择"是"，或右键 Printer_Migration.bat 选择"以管理员身份运行"。' -ForegroundColor Yellow
+        Write-Host '提示: 请在弹出的 UAC 窗口中选择"是"，或右键当前的入口 BAT（01_备份打印机.bat / 02_恢复打印机.bat）选择"以管理员身份运行"。' -ForegroundColor Yellow
         return $false
     }
 }
@@ -1199,8 +1199,8 @@ function Save-BackupSummaryText {
     [void]$sb.AppendLine('------------------------------------------------------------')
     [void]$sb.AppendLine(' 三、如何在新电脑上恢复')
     [void]$sb.AppendLine('------------------------------------------------------------')
-    [void]$sb.AppendLine('1. 把整个 Printer_Backup 文件夹和 Printer_Migration.bat / .ps1 放到同一个目录；')
-    [void]$sb.AppendLine('2. 双击 Printer_Migration.bat，选择【2】恢复打印机驱动；')
+    [void]$sb.AppendLine('1. 把整个 Printer_Backup 文件夹拷到新电脑（恢复程序和核心脚本已打包在里面，无需另外复制）；')
+    [void]$sb.AppendLine('2. 进入 Printer_Backup 文件夹，双击 02_恢复打印机.bat；')
     [void]$sb.AppendLine('3. 按提示选择要恢复的打印机。TCP/IP 打印机可直接重建端口和队列；')
     [void]$sb.AppendLine('4. USB 打印机需要先插好线并开机；共享打印机需要公司网络权限，程序不会自动连接。')
     [void]$sb.AppendLine('')
@@ -3379,7 +3379,7 @@ function Invoke-SelfTest {
         $ok = Test-AuthenticodeAvailable
         if (-not $ok) {
             Write-Host ("        PSModulePath=$($env:PSModulePath)") -ForegroundColor DarkGray
-            Write-Host '        请用 Printer_Migration.bat 启动（启动器会修正 PSModulePath），' -ForegroundColor DarkGray
+            Write-Host '        请用入口 BAT 启动（01_备份打印机.bat / 02_恢复打印机.bat 会修正 PSModulePath），' -ForegroundColor DarkGray
             Write-Host '        或以管理员身份运行: Import-Module Microsoft.PowerShell.Security' -ForegroundColor DarkGray
         }
         $ok
