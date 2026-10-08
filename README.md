@@ -1,17 +1,81 @@
 中文 | [English](README_EN.md)
 
-# 🖨️ Windows 打印机驱动极简备份与恢复
+# 🖨️ Windows 打印机迁移工具
+
+> 把旧电脑的打印机、驱动和配置搬到新电脑。
+> **两种版本任选其一，长期共存。**
+
+`v1.1.0` ｜ Windows 10 / 11 ｜ 图形版免安装单文件 ｜ 批处理版零依赖
+
+### 📦 [下载 v1.1.0 正式版](https://github.com/IcemanKH/windows-printer-migration/releases/latest)
+
+> 两种版本的通用流程都是三步：**旧电脑备份 → U 盘 / 移动硬盘搬运 → 新电脑恢复**。
+
+---
+
+## 🧭 先选版本
+
+| | **🅰️ 图形化版本**（推荐普通用户） | **🅱️ 批处理版本**（推荐技术用户） |
+| --- | --- | --- |
+| 下载 | [`PrtEasyBAK-zhCN-v1.1.0.zip`](https://github.com/IcemanKH/windows-printer-migration/releases/download/v1.1.0/PrtEasyBAK-zhCN-v1.1.0.zip) | [`Printer-Migration-CLI-v1.1.0.zip`](https://github.com/IcemanKH/windows-printer-migration/releases/download/v1.1.0/Printer-Migration-CLI-v1.1.0.zip) |
+| 形态 | 一个独立 EXE，双击即用 | 两个 BAT + 一个 PowerShell |
+| 界面 | 图形窗口，默认**简体中文**，可切换 **English / 繁體中文** | 中文控制台交互 |
+| 依赖 | 无（免安装单文件，静态链接 CRT） | 无（只用 Windows 自带组件） |
+| 适合 | 想点几下就完成备份和恢复的普通用户 | 想看清每一步、离线极简环境、需要脚本化的技术用户 |
+| 来源与许可 | 由上游开源项目改造，**MIT**（作者 Terence0816，见 [`gui/LICENSE`](gui/LICENSE)） | 本仓库原创脚本，**暂未指定许可证** |
+
+> 两个版本做的是同一件事，**选一个用即可**。
+
+---
+
+## 🅰️ 图形化版本（推荐普通用户）
+
+**下载**：[`PrtEasyBAK-zhCN-v1.1.0.zip`](https://github.com/IcemanKH/windows-printer-migration/releases/download/v1.1.0/PrtEasyBAK-zhCN-v1.1.0.zip) ｜ 详细说明：[`gui/README.md`](gui/README.md)
+
+- 独立 EXE，解压后直接双击运行，不用安装任何东西
+- **默认简体中文**，支持 **English** 与**繁體中文**切换，切换后立即生效并记住选择
+- 图形化勾选打印机，备份与恢复全程点选，不需要记命令
+- 备份内容：打印机名称、驱动 / 型号、端口、打印首选项、默认打印机信息
+- 恢复内容：自动安装备份的驱动，重建端口与打印队列，导入打印首选项并尝试还原默认打印机
+- 常见虚拟打印机自动跳过
+
+### 使用步骤
+
+1. **旧电脑**：解压 → 双击 `PrtEasyBAK.exe` → 允许 UAC → 选 **备份** → 勾选要备份的打印机 → 开始备份，同目录生成 `PrinterBackup\`；
+2. **搬运**：把整个 `PrinterBackup` 文件夹复制到 U 盘 / 移动硬盘，再复制到新电脑本地磁盘；
+3. **新电脑**：把 `PrinterBackup` 放在 `PrtEasyBAK.exe` 旁边 → 双击运行 → 选 **恢复** → 勾选要恢复的打印机 → 确认后自动恢复。
+
+### 界面
+
+简体中文（默认）：
+
+![图形化版本简体中文主界面](docs/images/gui-main-zh-cn.png)
+
+English（右上角下拉框可随时切换）：
+
+![图形化版本英文界面](docs/images/gui-main-en.png)
+
+> 以上为**真实运行截图**，只包含程序自身界面，不含任何真实打印机名称、IP 或用户名。
+
+### 来源与许可
+
+图形化版本基于 **Terence0816** 的开源项目 <https://github.com/Terence0816/Windows-Printer-Backup-Restore> 改造，**不是自主原创**：
+
+- 上游程序使用 **MIT License**，原作者版权声明与许可证原文完整保留在 [`gui/LICENSE`](gui/LICENSE)；
+- 上游的程序名称、版本号 `v1.2.0.0`、图标与署名均予保留；
+- 本次改造的主要修改是**新增简体中文本地化、把默认语言设为简体中文，并适配语言切换**，未新增备份/恢复之外的功能；
+- 从源码编译与语言测试方法见 [`gui/README.md`](gui/README.md)。
+
+---
+
+## 🅱️ 批处理版本（推荐技术用户）
 
 > 两个 BAT + 一个 PowerShell，把旧电脑的打印机驱动和配置搬到新电脑。
 > **够小、够简单、不用装任何东西。**
 
-`v1.0.0` ｜ Windows 10 / 11 ｜ PowerShell 5.1+
+**下载**：[`Printer-Migration-CLI-v1.1.0.zip`](https://github.com/IcemanKH/windows-printer-migration/releases/download/v1.1.0/Printer-Migration-CLI-v1.1.0.zip)
 
-### 📦 [下载最新版本](https://github.com/IcemanKH/windows-printer-migration/releases/latest)
-
-> 在发行版页面下载 **`Printer-Migration-v1.0.0.zip`**，解压后**把三个脚本保留在同一个文件夹**里，双击 `01_备份打印机.bat` 即可开始。
-
----
+> 解压后**把三个脚本保留在同一个文件夹**里，双击 `01_备份打印机.bat` 即可开始。
 
 ## ✨ 为什么用它
 
@@ -52,6 +116,7 @@
 
 > **截图来源说明**：本文 6 张备份/恢复流程图（`backup-entry`、`backup-select`、`backup-result`、`backup-folder`、`restore-entry`、`restore-result`）是依据程序真实输出格式绘制的**模拟界面**，使用演示数据（演示打印机名称、演示计算机名与 RFC5737 文档用 IP），**不是真实运行截图**。
 > `selftest.png` 则是**真实自检输出的脱敏版本**。本仓库**没有做过真实打印机迁移验收**：截图只用于说明界面与流程，不代表任何真实打印机或驱动已迁移成功。
+> （`gui-*.png` 三张是图形化版本的**真实运行截图**，只含程序界面，不含真实打印机信息。）
 
 ---
 
@@ -116,7 +181,25 @@ Printer_Backup/
 
 ---
 
-## 🧩 备份结论
+## 🔍 两个版本的差异
+
+| 对比项 | 🅰️ 图形化版本 | 🅱️ 批处理版本 |
+| --- | --- | --- |
+| 操作方式 | 图形窗口，鼠标勾选 | 控制台输入编号 |
+| 界面语言 | 简体中文（默认）/ English / 繁體中文 | 中文控制台 |
+| 驱动完整性校验 | 由程序内置流程完成 | 驱动身份 + SHA256 + 数字签名，不合格不装 |
+| 备份目录名 | `PrinterBackup` | `Printer_Backup` |
+| 恢复共用打印机 | 支持原始连接 / Local Port / LPR Port 三种模式 | 不自动连接，需手动添加 |
+| 自检命令 | 无 | `01_备份打印机.bat -SelfTest` |
+| 输出详细程度 | 图形进度与结果汇总 | 逐条控制台输出，便于排查 |
+| 技术栈 | 原生 C++（上游开源项目改造） | BAT + Windows PowerShell 5.1 |
+| 许可证 | MIT（上游，作者 Terence0816） | 暂未指定 |
+
+> **两套备份互不通用**：图形版读 `PrinterBackup`，批处理版读 `Printer_Backup`，请用哪个版本备份就用哪个版本恢复。
+
+---
+
+## 🧩 备份结论（批处理版本）
 
 | 结论 | 含义 |
 | --- | --- |
@@ -130,14 +213,16 @@ Printer_Backup/
 
 ## 🛠️ 运行环境
 
-- Windows 10 / 11（x86 / x64 / ARM64）
-- Windows PowerShell 5.1（系统自带）
-- 需要管理员权限，程序会自动弹 UAC 提权
-- 依赖全部为 Windows 自带组件：`pnputil`、`PrintManagement`、`printui.dll` 等
+- Windows 10 / 11（图形版：x64；批处理版：x86 / x64 / ARM64）
+- 批处理版本需要 Windows PowerShell 5.1（系统自带）；图形版本不需要 PowerShell
+- 两个版本都需要管理员权限，都会自动弹 UAC 提权
+- 依赖全部为 Windows 自带组件：`pnputil`、`PrintManagement`、`printui.dll` 等；图形版为静态链接的单文件，不需要额外的运行库
 
 ---
 
 ## 🔐 权限与执行策略
+
+（以下针对批处理版本）
 
 - 备份、恢复都需要管理员权限；UAC 被取消可右键 BAT →「以管理员身份运行」
 - **从不使用** `-ExecutionPolicy Bypass`，**从不修改**系统策略
@@ -160,10 +245,15 @@ Printer_Backup/
 | USB 未检测到 | 插好线开机，等系统识别出 `USB001` 后重跑 |
 | 测试页没打出来 | 程序只能发送任务，请检查打印机电源、纸盒和队列 |
 | 默认打印机变了 | 程序会尝试还原，被系统改动时会提示，可手动设置 |
+| 图形版找不到备份 | 确认 `PrinterBackup` 文件夹与 `PrtEasyBAK.exe` 在同一目录 |
+| 图形版界面不是中文 | 右上角下拉框选择「简体中文」，选择会被记住 |
+| 图形版提示需要管理员权限 | 右键 `PrtEasyBAK.exe` →「以管理员身份运行」 |
 
 ---
 
 ## ⚠️ 已知限制
+
+（批处理版本）
 
 1. 只有能从 Windows 驱动库导出 INF 的驱动才能自动恢复
 2. 不导出厂商安装程序；无 INF 的驱动会被标记为不可迁移
@@ -175,9 +265,17 @@ Printer_Backup/
 8. 不使用 `/force`，签名失败即拒绝安装
 9. 只处理用户选中的打印机，不全量导出驱动库
 
+（图形化版本）
+
+1. **没有做过真实打印机迁移验收**：驱动安装、端口重建与打印首选项导入未在本机实际执行
+2. 未覆盖所有打印机型号与驱动版本，**不承诺兼容所有驱动**
+3. 部分打印首选项仍可能受驱动版本与 Windows 版本影响
+4. USB 打印机恢复后可能仍需重新插拔或手动确认端口
+5. 网络共享打印机需要原始打印服务器仍可访问
+
 ---
 
-## 🧪 自检
+## 🧪 自检（批处理版本）
 
 ```bat
 01_备份打印机.bat -SelfTest
@@ -195,14 +293,21 @@ Printer_Backup/
 
 ## 🔏 安全提示
 
-`Printer_Backup/` 会包含打印机名称、IP、端口、共享路径、旧电脑的**计算机名和用户名**、驱动包及日志。
+`Printer_Backup/` 与 `PrinterBackup/` 会包含打印机名称、IP、端口、共享路径、旧电脑的**计算机名和用户名**、驱动包及日志。
 
 **请把它当作内部资料保管，不要公开上传或分享。**
 
-本仓库只包含 3 个脚本和文档；`.gitignore` 已排除备份产物、驱动文件和日志。
+本仓库只包含脚本、图形版源码与文档；`.gitignore` 已排除备份产物、驱动文件和日志。**发行版附件里不含任何真实备份数据。**
 
 ---
 
 ## 📄 许可证
 
-暂未指定开源许可证。**在作者明确授权之前，请勿再分发。**
+本仓库**整体尚未指定开源许可证**，各部分的授权状态不同：
+
+| 目录 / 内容 | 许可证状态 |
+| --- | --- |
+| 根目录 `01_备份打印机.bat`、`02_恢复打印机.bat`、`Printer_Migration.ps1` | **暂未指定开源许可证**，在作者明确授权之前请勿再分发 |
+| `gui/`（图形化版本，基于 Terence0816 的开源项目改造） | **MIT License**，详见 [`gui/LICENSE`](gui/LICENSE)，原作者版权声明予以保留 |
+
+> 本次发布**没有**把整个仓库改为 MIT 许可证；MIT 仅适用于 `gui/` 目录中的上游衍生代码。
