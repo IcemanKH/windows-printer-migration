@@ -1,0 +1,5 @@
+# 本仓库是面向 Windows 的 BAT + PowerShell 工具，用户克隆或下载 ZIP 后会直接双击运行。
+# 三个脚本以 LF 行尾交付，并已在 Windows PowerShell 5.1 下通过内置自检。
+# 这里显式固定行尾，避免因每个用户各自的 core.autocrlf 设置不同而使文件被改写，
+# 从而保证运行的文件与已验证的文件完全一致。
+* text=auto eol=lf
